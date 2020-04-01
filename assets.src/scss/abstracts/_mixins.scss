@@ -1,0 +1,13 @@
+@mixin font-awesome($content: "\f078", $position: null, $weight: 900) {
+	content: $content;
+	font-family: "Font Awesome 5 Free";
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
+	@if ($position) { position: $position; } @else { position: absolute; }
+	@if ($weight) { font-weight: $weight; } @else { font-weight: 400; }
+}

@@ -1,0 +1,24 @@
+.dropzone {
+
+	background: #fff !important;
+	text-align: center;
+	padding: 30px 15px !important;
+	border-radius: 6px;
+	@media (min-width: $breakpoint-md) {
+		padding: 40px 20px !important;
+	}
+	@media (min-width: $breakpoint-lg) {
+		padding: 60px 40px !important;
+	}
+
+	&:hover {
+		background: #fff !important;
+		border-color: #31ce36 !important;
+	}
+
+	&.dragover {
+		border-color: #31ce36 !important;
+		border-style: solid !important;
+	}
+
+}
