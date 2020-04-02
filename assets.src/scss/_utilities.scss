@@ -91,6 +91,25 @@
 	}
 }
 
+// Table Column Text Align
+@each $i, $ii in $align {
+	.td-#{$i} { td, th { text-align: #{$ii} !important; } }
+	.th-#{$i} { th { text-align: #{$ii} !important; } }
+	@each $j in (1,2,3,4,5,6,7,8,9,10,11,12) {
+		.td#{$j}-#{$i} { td:nth-child(#{$j}), th:nth-child(#{$j}) { text-align: #{$ii} !important; } }
+		.th#{$j}-#{$i} { th:nth-child(#{$j}) { text-align: #{$ii} !important; } }
+		.td#{$j}--#{$i} { td:nth-child(n+#{$j}), th:nth-child(n+#{$j}) { text-align: #{$ii} !important; } }
+		.td#{$j}--#{$i} { th:nth-child(n+#{$j}) { text-align: #{$ii} !important; } }
+	}
+}
+
+// Table Column Hidden
+@each $i in (1,2,3,4,5,6,7,8,9,10,11,12) {
+	.td#{$i}-d-none {
+		td:nth-child(#{$i}), th:nth-child(#{$i}) { display: none !important; }
+	}
+}
+
 
 
 /*-----------------------------------------------------------------------

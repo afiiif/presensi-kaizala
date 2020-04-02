@@ -86,6 +86,8 @@ const utils = (function() {
 		$.notify({ message, icon, ...options }, { type, ...settings });
 	}
 
+	const getSlug = text=> text.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+
 	return {
 		modal,
 		getModalData: () => $modal.data,
@@ -93,6 +95,7 @@ const utils = (function() {
 		modalLoading: $modal.loading,
 		modalError: $modal.error,
 		notif,
+		getSlug,
 	}
 
 })();
@@ -100,7 +103,9 @@ const utils = (function() {
 
 
 const dbg = (a='!', c=0) => {
-	if (DEV) console.info('%c'+a, `color: ${typeof c==='number'? ['#00ff7f', '#6495ed', '#ff0', '#fa8072', '#ffa500', '#f00'][c] : c}`);
+	if (typeof DEV !== 'undefined') {
+		if (DEV) console.info('%c'+a, `color: ${typeof c==='number'? ['#00ff7f', '#6495ed', '#ff0', '#fa8072', '#ffa500', '#f00'][c] : c}`);
+	}
 }
 
 

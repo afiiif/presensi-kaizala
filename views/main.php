@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
-	<link rel="stylesheet" href="lib/flaticon/flaticon.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=<?php include 'views/partials/_version.php'; ?>">
 	<link rel="stylesheet" href="assets/css/main.css?v=<?php include 'views/partials/_version.php'; ?>">
 
@@ -41,7 +41,7 @@
 			<div class="row row-8 align-items-center mb-35">
 				<div class="col-auto">Zona Waktu:</div>
 				<div class="col-auto" style="width: 90px;">
-					<select id="timezone" class="selectpicker" data-width="100%" data-style="btn-sm btn-primary btn-border bg-white">
+					<select id="select-timezone" class="selectpicker" data-width="100%" data-style="btn-sm btn-primary btn-border bg-white">
 						<option value="7">WIB</option>
 						<option value="8">WITA</option>
 						<option value="9">WIT</option>
@@ -64,110 +64,46 @@
 			</div>
 		</section>
 		<section id="section-result" style="display: none;">
-			<div class="d-flex align-items-center mb-3">
-				<h3 class="fw-6">Hasil</h3>
-				<div class="ml-auto">
+			<div class="row align-items-center mb-3">
+				<div class="col-sm mb--1 mb-sm-0">
+					<h3 class="fw-6 mb-0">Rekap Presensi</h3>
+				</div>
+				<div class="col fz-16 text-gray">
+					<i class="icon-clock mr-2"></i><span id="timezone">WIB</span>
+				</div>
+				<div class="col-auto">
 					<button id="btn-export" type="button" class="btn btn-icon btn-round btn-success mr-2" data-toggle="tooltip" title="Simpan ke File Excel"><i class="fas fa-download fz-18"></i></button><button id="btn-reset" type="button" class="btn btn-icon btn-round btn-danger" data-toggle="tooltip" title="Ulangi"><i class="fas fa-redo fz-18 fa-flip-horizontal"></i></button>
 				</div>
 			</div>
 			<div class="card mx--a mx-sm-0">
-				<div class="card-body">Lorem ipsum...</div>
+				<div class="card-header">
+					<div class="custom-control custom-radio">
+						<input type="radio" id="display_setting1" name="display_setting" class="custom-control-input" value="0" checked>
+						<label class="custom-control-label cur-p" for="display_setting1">Gabungkan presensi pagi & sore</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input type="radio" id="display_setting2" name="display_setting" class="custom-control-input" value="1">
+						<label class="custom-control-label cur-p" for="display_setting2">Pisahkan tiap presensi</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover table-sm w-100 td3-d-none td6-d-none" id="table"></table>
+				</div>
 			</div>
 		</section>
 	</main>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/id.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.8.9/jquery.csv.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
 	<script src="assets/js/main.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
-
-	<script>
-
-		$.notifyDefaults({
-			placement: { from: 'bottom' },
-			animate: { enter: 'animated fadeInUp', exit: 'animated fadeOutDown' },
-		});
-
-		$(()=>{
-
-			const $el = {
-				sectionInput: $('#section-input'),
-				sectionResult: $('#section-result'),
-				dropzone: $('#dropzone'),
-			};
-
-			$el.dropzone
-			.on('click', function(e) { $('#input-files').trigger('click') })
-			.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) { e.preventDefault(); e.stopPropagation(); })
-			.on('dragover dragenter', function() { $el.dropzone.addClass('dragover') })
-			.on('dragleave dragend drop', function() { $el.dropzone.removeClass('dragover') })
-			.on('drop', function(e) { readFile(e.originalEvent.dataTransfer.files) });
-
-			$('#input-files').change(function(e) { readFile(e.target.files) });
-
-			$('#btn-reset').click(function() {
-				$('.tooltip').tooltip('hide');
-				$el.sectionResult.hide();
-				$el.sectionInput.fadeIn();
-			});
-
-			const readFile = files => {
-
-				console.info(files);
-
-				let i = 0,
-					n = files.length,
-					nValid = 0,
-					nInvalid = 0,
-					nFailed = 0,
-					data = [];
-
-				const checkIfDone = () => {
-					if (n === i) {
-						if (nValid) {
-							utils.notif(nValid+' file berhasil diproses');
-							generateResult(data);
-						}
-						if (nInvalid) utils.notif((nValid ? nInvalid+' file' : 'File')+' tidak valid', 'danger');
-						if (nFailed) utils.notif(nFailed+' file gagal terbaca', 'warning');
-					}
-				}
-
-				Array.from(files).forEach(file => {
-					let ext = file.name.substr(file.name.lastIndexOf('.')+1).toLowerCase();
-					if (ext === 'csv') {
-						let reader = new FileReader();
-						reader.readAsText(file);
-						reader.onload = function(e) {
-							let text = e.target.result;
-							if (text.replace(/\"/g, '').startsWith('Responder Name,Group Name,Responder Location Latitude,Responder Location Longitude')) {
-								data.push({
-									filename: file.name,
-									data: $.csv.toObjects(text.replace(/\,\=\"20/g, ',"20')),
-								});
-								i++; nValid++; checkIfDone();
-							}
-							else { i++; nInvalid++; checkIfDone(); }
-						}
-						reader.onerror = function() { i++; nFailed++; checkIfDone(); }
-					}
-					else { i++; nInvalid++; }
-				});
-				checkIfDone();
-
-			}
-
-			const generateResult = data => {
-				console.info(data);
-				$el.sectionInput.hide();
-				$el.sectionResult.fadeIn();
-			}
-
-		});
-
-	</script>
+	<script>const DEV = <?=json_encode(SITE==='http://localhost')?>;</script>
 
 </body>
 </html>

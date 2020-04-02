@@ -1,0 +1,19 @@
+.dataTables_wrapper {
+
+	th.sorting, th.sorting_asc, th.sorting_desc {
+		padding-right: 36px !important;
+	}
+	th.fit, td.fit {
+		width: 1%; white-space: nowrap; padding-right: 24px;
+	}
+
+	@media (min-width: $breakpoint-md) {
+		th.sorting, th.sorting_asc, th.sorting_desc {
+			padding-right: 48px !important;
+		}
+		th.fit, td.fit {
+			width: 1%; white-space: nowrap; padding-right: 36px;
+		}
+	}
+
+}

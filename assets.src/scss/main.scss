@@ -1,5 +1,5 @@
 /*!
- * Presensi Kaizala v0.0.1
+ * Presensi Kaizala v1.0.0
  * Copyright 2020 Muhammad Afifudin
  * https://github.com/afiiif/
  *
@@ -10,6 +10,8 @@
 @import 'abstracts/mixins';
 
 @import 'vendors/bootstrap';
+@import 'vendors/bootstrap-select';
+@import 'vendors/dataTables';
 
 @import 'components/dropzone';
 

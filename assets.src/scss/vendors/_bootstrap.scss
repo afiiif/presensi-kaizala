@@ -1,3 +1,13 @@
+.text {
+	&-gray { color: #999 !important; }
+	&-lightgray { color: #ddd !important; }
+}
+
+.bg {
+	&-gray { background: #999 !important; }
+	&-lightgray { background: #ddd !important; }
+}
+
 .row {
 	&-2 { margin: 0 -2px; > div { padding: 0 2px; } }
 	&-4 { margin: 0 -4px; > div { padding: 0 4px; } }
