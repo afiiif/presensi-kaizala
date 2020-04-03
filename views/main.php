@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
 	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=<?php include 'views/partials/_version.php'; ?>">
 	<link rel="stylesheet" href="assets/css/main.css?v=<?php include 'views/partials/_version.php'; ?>">
 
@@ -59,6 +60,60 @@
 					<div class="fz-16 fz-md-20">
 						<div class="fw-6">Klik untuk Memilih file CSV</div>
 						<div class="fw-3">atau drag & drop file di sini</div>
+					</div>
+				</div>
+			</div>
+			<h3 class="fw-6 mt-45 mb-35">Panduan Penggunaan</h3>
+			<div class="row">
+				<div class="col-sm-6 col-lg position-relative">
+					<div class="custom-card-number">1</div>
+					<div class="card">
+						<div class="card-body">
+							<div>Export Attendance Report pada aplikasi Kaizala melalui fitur <span class="fw-6 text-primary">Share Attendance Report</span>, kemudian dapatkan link untuk mengunduh hasil export dengan menekan <span class="fw-6 text-primary">Tap to share link</span>.</div>
+							<div class="mx--2">
+								<a href="assets/img/cara-export-attendance.png" data-toggle="lightbox" data-gallery="help" class="d-block bg-lightgray mt-3 border" style="width: 100%; padding-bottom: 50%; background-image: url('assets/img/cara-export-attendance.png'); background-size: cover; background-position: bottom;"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg position-relative">
+					<div class="custom-card-number">2</div>
+					<div class="card">
+						<div class="card-body">
+							<div>Unduh file dari link tadi, maka didapatlah file berekstensi <span class="fw-6">zip</span>. Ambil file <span class="text-primary">SurveyResponse.csv</span> di dalamnya.</div>
+							<a href="assets/img/kaizala-zip.png" data-toggle="lightbox" data-gallery="help" class="d-block bg-lightgray mt-3 mx--2 border">
+								<img src="assets/img/kaizala-zip.png" class="w-100">
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg position-relative">
+					<div class="custom-card-number">3</div>
+					<div class="card">
+						<div class="card-body">
+							<div>Atur zona waktu yang diinginkan.<br>Kemudian masukkan file-file CSV ke web app ini.</div>
+							<a href="assets/img/presensi-kaizala.gif" data-toggle="lightbox" data-gallery="help" class="d-block bg-lightgray mt-3 mx--2 border">
+								<img src="assets/img/presensi-kaizala.gif" class="w-100">
+							</a>
+							<div class="d-flex mt-25">
+								<div><i class="fas fa-lightbulb text-warning mr-2"></i></div>
+								<div>Anda dapat memilih banyak file sekaligus.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg position-relative">
+					<div class="custom-card-number">4</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="text-center d-flex h-100 align-items-center justify-content-center">
+								<div>
+									<i class="icon-check fz-72 text-success"></i>
+									<div class="mt-25">Selesai</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-body border-top pt-3">Anda dapat melakukan export data ke dalam file <span class="text-primary">XLS</span>, mengurutkan baris pada tabel, dan melakukan filter presensi berdasarkan pegawai.</div>
 					</div>
 				</div>
 			</div>
@@ -103,6 +158,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/shim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/xlsx.full.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
 	<script src="assets/js/main.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
 	<script>const DEV = <?=json_encode(SITE==='http://localhost')?>;</script>

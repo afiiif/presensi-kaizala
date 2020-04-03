@@ -7,3 +7,33 @@ body {
 		font-size: 12px;
 	}
 }
+
+.custom-card-number {
+	width: 48px;
+	height: 48px;
+	position: absolute;
+	left: 0;
+	top: 12px;
+	z-index: 3;
+	border-radius: 100%;
+	text-align: center;
+	font-size: 28px;
+	border: 2px solid #1572e8;
+	color: #6c757d;
+	&::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: -5px;
+		width: 54px;
+		height: 54px;
+		border: 1px solid #6fdd73;
+		border-radius: 100%;
+		z-index: 2;
+	}
+	+ .card {
+		height: calc(100% - 30px);
+		margin-left: 1.5rem;
+		border-radius: 12px;
+	}
+}
