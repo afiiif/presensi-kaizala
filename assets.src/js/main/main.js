@@ -10,7 +10,8 @@ $(()=>{
 	};
 	var $tbl,
 		timezone = 7,
-		display = 0;
+		display = 0,
+		employees;
 
 	$el.dropzone
 	.on('click', function(e) { $('#input-files').trigger('click') })
@@ -86,42 +87,72 @@ $(()=>{
 		$el.timezone.html($('#select-timezone :selected').text());
 		timezone = Number($('#select-timezone').val());
 
-		let merged = [], employee = [], date = [];
+		let merged = []; employees = [];
+
 		data.forEach(a => {
 			a.data.forEach(b => {
+
 				let m = moment(b['ResponseTime (UTC)'].substr(0,19)).add(timezone, 'hours'),
-					d = m.format('D MMMM YYYY'),
-					hourInNum = Number(m.format('HHmmss'));
-				if (!employee.includes(b['Responder Name'])) employee.push(b['Responder Name']);
-				if (!date.includes(d)) date.push(d);
-				let id_employee = employee.findIndex(c => c === b['Responder Name'])+1,
+					day = m.format('dddd,D MMMM YYYY').split(','),
+					time = [m.format('HH:mm:ss'), Number(m.format('HHmmss'))];
+
+				if (!employees.includes(b['Responder Name'])) employees.push(b['Responder Name']);
+
+				let id_employee = employees.findIndex(c => c === b['Responder Name'])+1,
 					id_employee_d = id_employee + m.format('-YYYYMMDD'),
 					id_employee_t = id_employee + m.format('-YYYYMMDD-HHmmss');
+
 				merged.push({
 					...b,
-					t: colorTime(m, hourInNum),
-					d: m.format('[<span class="d-none">]YYYYMMDD[</span>]dddd, D MMMM YYYY'),
-					hourInNum,
+					m,
+					day,
+					time,
+					dt_day: m.format('[<span class="d-none">]YYYYMMDD[</span>]dddd, D MMMM YYYY'),
+					dt_time: colorTime(m, time[1]),
 					id_employee,
 					id_employee_d,
 					id_employee_t,
 				});
+
 			});
 		});
+
 		merged.forEach(a => {
-			let timeInOneDay = merged.filter(b => b.id_employee_d === a.id_employee_d).map(b => b.t),
-				n = timeInOneDay.length,
-				thisTimeIndex = timeInOneDay.findIndex(b => b === a.t);
+			let allTime = merged.filter(b => b.id_employee_d === a.id_employee_d),
+				n = allTime.length,
+				thisTimeIndex = allTime.findIndex(b => b.time[0] === a.time[0]);
 			if (thisTimeIndex === 0) {
-				if (n === 1) a.range = a.hourInNum < 120000 ? [a.t, '<span class="text-gray">-</span>'] : ['<span class="text-gray">-</span>', a.t];
-				else a.range = [a.t, timeInOneDay[n-1]];
+				if (n === 1) {
+					if (a.time[1] < 120000) {
+						a.range_time = [a.time[0], '-'];
+						a.range_coordinate = [a['Responder Location Latitude']+', '+a['Responder Location Longitude'], '-'];
+						a.range_note = [a.NotesQuestionTitle, '-'];
+						a.range_photo = [a.PhotoQuestionTitle, '-'];
+						a.dt_range_time = [a.dt_time, '<span class="text-gray">-</span>'];
+					}
+					else {
+						a.range_time = ['-', a.time[0]];
+						a.range_coordinate = ['-', a['Responder Location Latitude']+', '+a['Responder Location Longitude']];
+						a.range_note = ['-', a.NotesQuestionTitle];
+						a.range_photo = ['-', a.PhotoQuestionTitle];
+						a.dt_range_time = ['<span class="text-gray">-</span>', a.dt_time];
+					}
+				}
+				else {
+					let b = allTime[n-1];
+					a.range_time = [a.time[0], b.time[0]];
+					a.range_coordinate = [a['Responder Location Latitude']+', '+a['Responder Location Longitude'], b['Responder Location Latitude']+', '+b['Responder Location Longitude']];
+					a.range_note = [a.NotesQuestionTitle, b.NotesQuestionTitle];
+					a.range_photo = [a.PhotoQuestionTitle, b.PhotoQuestionTitle];
+					a.dt_range_time = [a.dt_time, b.dt_time];
+				}
 			}
 		});
 
 		$tbl.clear().rows.add(merged).draw();
 		$el.tblFilter.html(
 			'<option value="">Semua Pegawai</option><option style="border-bottom: 1px solid #eee; font-size: 0; padding: 6px 0 0; margin-bottom: 6px;" disabled></option>'
-			+ employee.map((a,i) => [a, `<option value="${i+1}">${a}</option>`]).sort((a,b) => a[0]>b[0] ? 1 : -1).map(a => a[1]).join('')
+			+ employees.map((a,i) => [a, `<option value="${i+1}">${a}</option>`]).sort((a,b) => a[0]>b[0] ? 1 : -1).map(a => a[1]).join('')
 		).trigger('change').selectpicker('refresh');
 
 		$('#display_setting1').click();
@@ -134,32 +165,32 @@ $(()=>{
 		columns: [{
 			className: 'fit',
 			title: 'Hari, Tanggal',
-			data: 'd',
+			data: 'dt_day',
 		},{
 			title: 'Nama',
 			data: null,
 			render: a => `<span class="d-none">[id=${a.id_employee}]</span>${a['Responder Name']}`,
 		},{
 			title: 'Waktu',
-			data: 't',
+			data: 'dt_time',
 		},{
 			title: 'Waktu Mulai',
 			data: null,
-			render: ({ range }) => range ? range[0] : '',
+			render: ({ dt_range_time }) => dt_range_time ? dt_range_time[0] : '',
 		},{
 			title: 'Waktu Berakhir',
 			data: null,
-			render: ({ range }) => range ? range[1] : '',
+			render: ({ dt_range_time }) => dt_range_time ? dt_range_time[1] : '',
 		},{
 			title: 'Catatan',
 			data: 'NotesQuestionTitle',
-		},{
-			className: 'fit pr-2',
-			title: '',
-			data: null,
-			searchable: false,
-			sortable: false,
-			render: () => `<i class="fas fa-info-circle fa-fw py-1 cur-p fz-16 text-primary" title="Detail" onclick="utils.notif('Coming soon...', 'wait')"></i>`,
+		// },{
+		// 	className: 'fit pr-2',
+		// 	title: '',
+		// 	data: null,
+		// 	searchable: false,
+		// 	sortable: false,
+		// 	render: () => `<i class="fas fa-info-circle fa-fw py-1 cur-p fz-16 text-primary" title="Detail" onclick="utils.notif('Coming soon...', 'wait')"></i>`,
 		}],
 	});
 	$('#table_filter').html('<div class="d-inline-flex align-items-center"><div class="mr-2"><i class="fas fa-user"></i></div><div><select id="table-filter-employee" class="selectpicker" data-style="btn-light btn-sm"></select></div></div>');
@@ -169,8 +200,55 @@ $(()=>{
 		return ( !$el.tblFilter.val() || data[1].includes(`[id=${$el.tblFilter.val()}]`) ) && ( display || data[3] );
 	});
 
+	const exportExcel = sheets => {
+		let wb = XLSX.utils.book_new();
+		sheets.forEach(a => { XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(a.data), a.name) });
+		XLSX.writeFile(wb, `Presensi Kaizala (${$('#select-timezone :selected').text()}) - ${moment.utc().add(timezone, 'hours').format('YYYYMMDD-HHmmss')}.xlsx`);
+	}
+
 	$('#btn-export').click(function() {
-		utils.notif('Coming soon...', 'wait');
+
+		let rawdata = $tbl.rows().data().toArray(),
+			header,
+			data,
+			dataByEmployee = [];
+
+		if (display) {
+			header = ['Hari', 'Tanggal', 'Nama', 'Waktu', 'Koordinat', 'Catatan', 'Foto'];
+			data = rawdata.map(a => [
+				a.day[0],
+				a.day[1],
+				a['Responder Name'],
+				a.time,
+				a['Responder Location Latitude']+', '+a['Responder Location Longitude'],
+				a.NotesQuestionTitle,
+				a.PhotoQuestionTitle,
+			]);
+		}
+		else {
+			header = ['Hari', 'Tanggal', 'Nama', 'Waktu Mulai', 'Waktu Berakhir', 'Koordinat Waktu Mulai', 'Koordinat Waktu Berakhir', 'Catatan Waktu Mulai', 'Catatan Waktu Berakhir', 'Foto Waktu Mulai', 'Foto Waktu Berakhir'];
+			data = rawdata.filter(a => a.range_time).map(a => [
+				a.day[0],
+				a.day[1],
+				a['Responder Name'],
+				a.range_time[0],
+				a.range_time[1],
+				a.range_coordinate[0],
+				a.range_coordinate[1],
+				a.range_note[0],
+				a.range_note[1],
+				a.range_photo[0],
+				a.range_photo[1],
+			]);
+		}
+
+		employees.sort().forEach(name => {
+			dataByEmployee.push({ name, data: [header].concat(data.filter(a => a[2] === name)) });
+		});
+
+		let sheets = [{ name: 'Semua Pegawai', data: [header].concat(data) }].concat(dataByEmployee);
+		exportExcel(sheets);
+
 	});
 
 });
