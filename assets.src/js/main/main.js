@@ -122,8 +122,10 @@ $(()=>{
 			});
 		});
 
+		// if (DEV) console.table(merged.map(a => ({ day: a.day[1], time: a.time[0], name: a['Responder Name'] })));
+
 		merged.forEach(a => {
-			let allTime = merged.filter(b => b.id_employee_d === a.id_employee_d),
+			let allTime = merged.filter(b => b.id_employee_d === a.id_employee_d).sort((a,b) => a.time[1]>b.time[1] ? 1 : -1),
 				n = allTime.length,
 				thisTimeIndex = allTime.findIndex(b => b.time[0] === a.time[0]);
 			if (thisTimeIndex === 0) {
