@@ -49,7 +49,7 @@
 					</select>
 				</div>
 			</div>
-			<input type="file" accept=".csv" id="input-files" class="d-none" multiple>
+			<input type="file" accept=".csv,.zip" id="input-files" class="d-none" multiple>
 			<div class="dropzone cur-p" id="dropzone">
 				<div class="dropzone-inner">
 					<div class="mb-35 d-inline-block position-relative">
@@ -166,6 +166,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/shim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/xlsx.full.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.3.0/jszip.min.js"></script>
 	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
 	<script src="assets/js/main.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
 	<script>const DEV = <?=json_encode(SITE==='http://localhost')?>;</script>

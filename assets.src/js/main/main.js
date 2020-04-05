@@ -9,7 +9,6 @@ $(()=>{
 		sectionInput: $('#section-input'),
 		sectionResult: $('#section-result'),
 		dropzone: $('#dropzone'),
-		// timezone: $('#timezone'),
 		display: $('[name="display_setting"]'),
 		tbl: $('#table'),
 	};
@@ -61,23 +60,45 @@ $(()=>{
 			}
 		}
 
+		const readCsv = (filename, text) => {
+			if (text.replace(/\"/g, '').startsWith('Responder Name,Group Name,Responder Location Latitude,Responder Location Longitude')) {
+				try {
+					data.push({
+						filename: filename,
+						data: $.csv.toObjects(text.replace(/\,\=\"20/g, ',"20')),
+					});
+					i++; nValid++; checkIfDone();
+				}
+				catch(err) {
+					i++; nFailed++; checkIfDone();
+				}
+			}
+			else { i++; nInvalid++; checkIfDone(); }
+		}
+
 		Array.from(files).forEach(file => {
 			let ext = file.name.substr(file.name.lastIndexOf('.')+1).toLowerCase();
 			if (ext === 'csv') {
 				let reader = new FileReader();
 				reader.readAsText(file);
-				reader.onload = function(e) {
-					let text = e.target.result.replace(/\t/g, ',');
-					if (text.replace(/\"/g, '').startsWith('Responder Name,Group Name,Responder Location Latitude,Responder Location Longitude')) {
-						data.push({
-							filename: file.name,
-							data: $.csv.toObjects(text.replace(/\,\=\"20/g, ',"20')),
-						});
-						i++; nValid++; checkIfDone();
-					}
-					else { i++; nInvalid++; checkIfDone(); }
-				}
+				reader.onload = function(e) { readCsv(file.name, e.target.result.replace(/\t/g, ',')); }
 				reader.onerror = function() { i++; nFailed++; checkIfDone(); }
+			}
+			else if (ext === 'zip') {
+				JSZip.loadAsync(file).then(function(zip) {
+					let innerFiles = Object.keys(zip.files);
+					i -= innerFiles.length - 1;
+					innerFiles.forEach(function (filename) {
+						if (filename.substr(filename.lastIndexOf('.')+1).toLowerCase() === 'csv') {
+							zip.files[filename].async('string').then(function(text) {
+								readCsv(filename, text.replace(/\t/g, ',').replace(/\ufeff/g, ''));
+							});
+						}
+						else { i++; nInvalid++; checkIfDone(); }
+					});
+				}, function (e) {
+					i++; nFailed++; checkIfDone();
+				});
 			}
 			else { i++; nInvalid++; }
 		});
@@ -91,7 +112,6 @@ $(()=>{
 
 		const colorTime = (m, n) => `<span class="text-${n <= 73000 || n >= (m.format('e') === '4' ? 163000 : 160000) ? 'green' : 'danger'}">${m.format('HH:mm:ss')}</span>`;
 
-		// $el.timezone.html($('#select-timezone :selected').text());
 		timezone = Number($('#select-timezone').val());
 
 		let merged = []; employees = [];
@@ -123,8 +143,6 @@ $(()=>{
 
 			});
 		});
-
-		// if (DEV) console.table(merged.map(a => ({ day: a.day[1], time: a.time[0], name: a['Responder Name'] })));
 
 		merged.forEach(a => {
 			let allTime = merged.filter(b => b.id_employee_d === a.id_employee_d).sort((a,b) => a.time[1]>b.time[1] ? 1 : -1),
