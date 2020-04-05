@@ -119,14 +119,21 @@
 			</div>
 		</section>
 		<section id="section-result" style="display: none;">
-			<div class="row align-items-center mb-3">
-				<div class="col-sm mb--1 mb-sm-0">
+			<div class="row row-8 align-items-center mb-3">
+				<div class="col-sm py-15">
 					<h3 class="fw-6 mb-0">Rekap Presensi</h3>
 				</div>
-				<div class="col fz-16 text-gray">
+				<!-- <div class="col fz-16 text-gray">
 					<i class="icon-clock mr-2"></i><span id="timezone">WIB</span>
+				</div> -->
+				<div class="col-auto" style="width: 90px;">
+					<select id="select-timezone-2" class="selectpicker" data-width="100%" data-style="btn-sm btn-primary btn-border bg-white">
+						<option value="7">WIB</option>
+						<option value="8">WITA</option>
+						<option value="9">WIT</option>
+					</select>
 				</div>
-				<div class="col-auto">
+				<div class="col text-right">
 					<button id="btn-export" type="button" class="btn btn-icon btn-round btn-success mr-2" data-toggle="tooltip" title="Simpan ke File Excel"><i class="fas fa-download fz-18"></i></button><button id="btn-reset" type="button" class="btn btn-icon btn-round btn-danger" data-toggle="tooltip" title="Ulangi"><i class="fas fa-redo fz-18 fa-flip-horizontal"></i></button>
 				</div>
 			</div>

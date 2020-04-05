@@ -9,14 +9,16 @@ $(()=>{
 		sectionInput: $('#section-input'),
 		sectionResult: $('#section-result'),
 		dropzone: $('#dropzone'),
-		timezone: $('#timezone'),
+		// timezone: $('#timezone'),
 		display: $('[name="display_setting"]'),
 		tbl: $('#table'),
 	};
 	var $tbl,
+		data = [],
 		timezone = 7,
 		display = 0,
-		employees;
+		employees,
+		sectionResult = false;
 
 	$el.dropzone
 	.on('click', function(e) { $('#input-files').trigger('click') })
@@ -35,24 +37,24 @@ $(()=>{
 
 	$('#btn-reset').click(function() {
 		$('.tooltip').tooltip('hide');
-		$el.sectionResult.hide();
+		$el.sectionResult.hide(); sectionResult = false;
 		$el.sectionInput.fadeIn();
 	});
 
 	const readFile = files => {
 
+		data = [];
 		let i = 0,
 			n = files.length,
 			nValid = 0,
 			nInvalid = 0,
-			nFailed = 0,
-			data = [];
+			nFailed = 0;
 
 		const checkIfDone = () => {
 			if (n === i) {
 				if (nValid) {
 					utils.notif(nValid+' file berhasil diproses', 'success');
-					generateResult(data);
+					generateResult();
 				}
 				if (nInvalid) utils.notif((nValid ? nInvalid+' file' : 'File')+' tidak valid', 'danger');
 				if (nFailed) utils.notif(nFailed+' file gagal terbaca', 'warning');
@@ -83,13 +85,13 @@ $(()=>{
 		checkIfDone();
 	}
 
-	const generateResult = data => {
+	const generateResult = (resetDisplay=true) => {
 
 		console.info(data);
 
 		const colorTime = (m, n) => `<span class="text-${n <= 73000 || n >= (m.format('e') === '4' ? 163000 : 160000) ? 'green' : 'danger'}">${m.format('HH:mm:ss')}</span>`;
 
-		$el.timezone.html($('#select-timezone :selected').text());
+		// $el.timezone.html($('#select-timezone :selected').text());
 		timezone = Number($('#select-timezone').val());
 
 		let merged = []; employees = [];
@@ -162,10 +164,21 @@ $(()=>{
 			+ employees.map((a,i) => [a, `<option value="${i+1}">${a}</option>`]).sort((a,b) => a[0]>b[0] ? 1 : -1).map(a => a[1]).join('')
 		).trigger('change').selectpicker('refresh');
 
-		$('#display_setting1').click();
-		$el.sectionInput.hide();
-		$el.sectionResult.fadeIn();
+		if (resetDisplay) {
+			$('#display_setting1').click();
+			$('#select-timezone-2').selectpicker('val', timezone);
+			$el.sectionInput.hide();
+			$el.sectionResult.fadeIn(); sectionResult = true;
+		}
 	}
+
+	$('#select-timezone-2').change(function() {
+		dbg('Changed - '+sectionResult);
+		if (sectionResult) {
+			$('#select-timezone').selectpicker('val', $('#select-timezone-2').val());
+			generateResult(false);
+		}
+	});
 
 	$tbl = $el.tbl.DataTable({
 		data: [],
