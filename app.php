@@ -1,6 +1,7 @@
 <?php
 
-define('SITE', 'http://localhost');
+include 'config.php';
+
 define('PATH', strtok($_SERVER['REQUEST_URI'], '?'));
 
 if (PATH === '/presensi-kaizala/') {

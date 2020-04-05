@@ -56,9 +56,10 @@
 						<i class="fas fa-circle fz-22 text-white position-absolute z-5" style="top: 8px; left: -16px;"></i>
 						<i class="fas fa-plus-circle fz-22 position-absolute z-5" style="top: 8px; left: -16px;"></i>
 						<i class="fas fa-file-csv fz-52 text-success op-7"></i>
+						<i class="fas fa-file-archive fz-52 text-warning op-7 ml-2"></i>
 					</div>
 					<div class="fz-16 fz-md-20">
-						<div class="fw-6">Klik untuk Memilih file CSV</div>
+						<div class="fw-6">Klik untuk memilih file <div class="d-inline-block"><span class="text-success">CSV</span> atau <span class="text-warning">ZIP</span></div></div>
 						<div class="fw-3">atau drag & drop file di sini</div>
 					</div>
 				</div>
