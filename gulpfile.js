@@ -1,78 +1,62 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 
-
-
-/*-----------------------------------------------------------------------
-|  SASS
-|------------------------------------------------------------------------
-*/
-gulp.task('sass', function () {
-	gulp.src('assets.src/scss/main.scss')
+// Compile Sass
+function css_main() {
+	return gulp
+		.src('assets.src/scss/main.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass({ outputStyle: 'compressed', includePaths: ['./assets.src/scss'] }).on('error', sass.logError))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('assets/css'));
-});
+}
 
-
-
-/*-----------------------------------------------------------------------
-|  JS
-|------------------------------------------------------------------------
-*/
-gulp.task('main.js', function(){
-	gulp.src(['assets.src/js/utilities.js', 'assets.src/js/main/**/*.js'])
+// Concat & minify JS
+function js_main() {
+	return gulp
+		.src(['assets.src/js/utilities.js', 'assets.src/js/main/**/*.js'])
 		.pipe(sourcemaps.init())
 		.pipe(concat('main.js'))
-		.pipe(babel({ presets: ['@babel/env'] }).on('error', function(e) { console.log(e) }))
+		.pipe(babel({ presets: ['@babel/env'] }).on('error', function (e) { console.log(e) }))
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('assets/js'));
-});
+}
 
-
-
-/*-----------------------------------------------------------------------
-|  MODIFIED LIBRARIES
-|------------------------------------------------------------------------
-*/
-gulp.task('atlantis', function () {
-	gulp.src('lib/atlantis-lite/css/atlantis.mod.scss')
+// Modify libraries
+function atlantis_css() {
+	return gulp
+		.src('lib/atlantis-lite/css/atlantis.mod.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('lib/atlantis-lite/mod'));
-	gulp.src(['lib/atlantis-lite/js/atlantis.mod.js', 'lib/atlantis-lite/js/plugin/bootstrap-notify/bootstrap-notify.min.js'])
+}
+function atlantis_js() {
+	return gulp
+		.src(['lib/atlantis-lite/js/atlantis.mod.js', 'lib/atlantis-lite/js/plugin/bootstrap-notify/bootstrap-notify.min.js'])
 		.pipe(sourcemaps.init())
 		.pipe(concat('atlantis.mod.js'))
-		.pipe(babel({ presets: ['@babel/env'] }).on('error', function(e) { console.log(e) }))
+		.pipe(babel({ presets: ['@babel/env'] }).on('error', function (e) { console.log(e) }))
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('lib/atlantis-lite/mod'));
-});
+}
 
+// Watch files
+function watchFiles() {
+	gulp.watch('assets.src/scss/**/*.scss', gulp.series(css_main));
+	gulp.watch('assets.src/js/main/**/*.js', gulp.series(js_main));
+	gulp.watch('assets.src/js/utilities.js', gulp.series(js_main));
+}
 
-
-/*-----------------------------------------------------------------------
-|  WATCH
-|------------------------------------------------------------------------
-*/
-gulp.task('watch', function(){
-	gulp.watch('assets.src/scss/**/*.scss', ['sass']);
-	gulp.watch('assets.src/js/main/**/*.js', ['main.js']);
-	gulp.watch('assets.src/js/utilities.js', ['main.js']);
-});
-
-
-
-/*-----------------------------------------------------------------------
-|  DEFAULT
-|------------------------------------------------------------------------
-*/
-gulp.task('default', ['sass', 'main.js']);
+// Export
+exports.css_main = css_main;
+exports.js_main = js_main;
+exports.atlantis = gulp.series(atlantis_css, atlantis_js);
+exports.watch = watchFiles;
+exports.default = gulp.series(css_main, js_main);
