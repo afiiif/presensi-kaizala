@@ -119,7 +119,7 @@ $(()=>{
 		data.forEach(a => {
 			a.data.forEach(b => {
 
-				let m = moment(b['ResponseTime (UTC)'].substr(0,19)).add(timezone, 'hours'),
+				let m = moment(b['Server Receipt Timestamp (UTC)'].substr(0,19)).add(timezone, 'hours'),
 					day = m.format('dddd,D MMMM YYYY').split(','),
 					time = [m.format('HH:mm:ss'), Number(m.format('HHmmss'))];
 
@@ -239,8 +239,12 @@ $(()=>{
 	});
 
 	const exportExcel = sheets => {
+		const sanitizeName = name => {
+			if (name.length > 30) name = name.substr(0,27)+'...';
+			return name.replace(/\\|\/|\?|\*|\[|\]/g, '_');
+		}
 		let wb = XLSX.utils.book_new();
-		sheets.forEach(a => { XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(a.data), a.name) });
+		sheets.forEach(a => { XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(a.data), sanitizeName(a.name)) });
 		XLSX.writeFile(wb, `Presensi Kaizala (${$('#select-timezone :selected').text()}) - ${moment.utc().add(timezone, 'hours').format('YYYYMMDD-HHmmss')}.xlsx`);
 	}
 
