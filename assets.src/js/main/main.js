@@ -61,7 +61,7 @@ $(()=>{
 		}
 
 		const readCsv = (filename, text) => {
-			if (text.replace(/\"/g, '').startsWith('Responder Name,Group Name,Responder Location Latitude,Responder Location Longitude')) {
+			if (text.replace(/\"/g, '').startsWith('Responder Name,Group Name,')) {
 				try {
 					data.push({
 						filename: filename,
