@@ -5,7 +5,7 @@ $(()=>{
 		$(this).ekkoLightbox();
 	});
 
-	const $el = {
+	const $$ = {
 		sectionInput: $('#section-input'),
 		sectionResult: $('#section-result'),
 		dropzone: $('#dropzone'),
@@ -19,16 +19,16 @@ $(()=>{
 		employees,
 		sectionResult = false;
 
-	$el.dropzone
+	$$.dropzone
 	.on('click', function(e) { $('#input-files').trigger('click') })
 	.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) { e.preventDefault(); e.stopPropagation(); })
-	.on('dragover dragenter', function() { $el.dropzone.addClass('dragover') })
-	.on('dragleave dragend drop', function() { $el.dropzone.removeClass('dragover') })
+	.on('dragover dragenter', function() { $$.dropzone.addClass('dragover') })
+	.on('dragleave dragend drop', function() { $$.dropzone.removeClass('dragover') })
 	.on('drop', function(e) { readFile(e.originalEvent.dataTransfer.files) });
 
-	$el.display.change(function() {
+	$$.display.change(function() {
 		display = Number($(this).val());
-		$el.tbl.toggleClass('td3-d-none td6-d-none', display === 0).toggleClass('td4-d-none td5-d-none', display === 1);
+		$$.tbl.toggleClass('td3-d-none td6-d-none', display === 0).toggleClass('td4-d-none td5-d-none', display === 1);
 		$tbl.draw();
 	});
 
@@ -36,8 +36,8 @@ $(()=>{
 
 	$('#btn-reset').click(function() {
 		$('.tooltip').tooltip('hide');
-		$el.sectionResult.hide(); sectionResult = false;
-		$el.sectionInput.fadeIn();
+		$$.sectionResult.hide(); sectionResult = false;
+		$$.sectionInput.fadeIn();
 	});
 
 	const readFile = files => {
@@ -177,7 +177,7 @@ $(()=>{
 		});
 
 		$tbl.clear().rows.add(merged).draw();
-		$el.tblFilter.html(
+		$$.tblFilter.html(
 			'<option value="">Semua Pegawai</option><option style="border-bottom: 1px solid #eee; font-size: 0; padding: 6px 0 0; margin-bottom: 6px;" disabled></option>'
 			+ employees.map((a,i) => [a, `<option value="${i+1}">${a}</option>`]).sort((a,b) => a[0]>b[0] ? 1 : -1).map(a => a[1]).join('')
 		).trigger('change').selectpicker('refresh');
@@ -185,8 +185,8 @@ $(()=>{
 		if (resetDisplay) {
 			$('#display_setting1').click();
 			$('#select-timezone-2').selectpicker('val', timezone);
-			$el.sectionInput.hide();
-			$el.sectionResult.fadeIn(); sectionResult = true;
+			$$.sectionInput.hide();
+			$$.sectionResult.fadeIn(); sectionResult = true;
 		}
 	}
 
@@ -198,7 +198,7 @@ $(()=>{
 		}
 	});
 
-	$tbl = $el.tbl.DataTable({
+	$tbl = $$.tbl.DataTable({
 		data: [],
 		columns: [{
 			className: 'fit',
@@ -232,10 +232,10 @@ $(()=>{
 		}],
 	});
 	$('#table_filter').html('<div class="d-inline-flex align-items-center"><div class="mr-2"><i class="fas fa-user"></i></div><div><select id="table-filter-employee" class="selectpicker" data-style="btn-light btn-sm"></select></div></div>');
-	$el.tblFilter = $('#table-filter-employee').change(function() { $tbl.draw() });
+	$$.tblFilter = $('#table-filter-employee').change(function() { $tbl.draw() });
 
 	$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-		return ( !$el.tblFilter.val() || data[1].includes(`[id=${$el.tblFilter.val()}]`) ) && ( display || data[3] );
+		return ( !$$.tblFilter.val() || data[1].includes(`[id=${$$.tblFilter.val()}]`) ) && ( display || data[3] );
 	});
 
 	const exportExcel = sheets => {
@@ -261,7 +261,7 @@ $(()=>{
 				a.day[0],
 				a.day[1],
 				a['Responder Name'],
-				a.time,
+				a.time[0],
 				a['Responder Location Latitude']+', '+a['Responder Location Longitude'],
 				a.NotesQuestionTitle,
 				a.PhotoQuestionTitle,

@@ -119,9 +119,6 @@
 				<div class="col-sm py-15">
 					<h3 class="fw-6 mb-0">Rekap Presensi</h3>
 				</div>
-				<!-- <div class="col fz-16 text-gray">
-					<i class="icon-clock mr-2"></i><span id="timezone">WIB</span>
-				</div> -->
 				<div class="col-auto" style="width: 90px;">
 					<select id="select-timezone-2" class="selectpicker" data-width="100%" data-style="btn-sm btn-primary btn-border bg-white">
 						<option value="7">WIB</option>
@@ -131,6 +128,19 @@
 				</div>
 				<div class="col text-right">
 					<button id="btn-export" type="button" class="btn btn-icon btn-round btn-success mr-2" data-toggle="tooltip" title="Simpan ke File Excel"><i class="fas fa-download fz-18"></i></button><button id="btn-reset" type="button" class="btn btn-icon btn-round btn-danger" data-toggle="tooltip" title="Ulangi"><i class="fas fa-redo fz-18 fa-flip-horizontal"></i></button>
+				</div>
+			</div>
+			<div class="alert alert-warning pl-3 pr-5 mb-4 alert-dismissible fade show" role="alert">
+				<button type="button" aria-hidden="true" class="close" data-notify="dismiss" data-dismiss="alert" aria-label="Tutup" style="position: absolute; right: 10px; top: 5px; z-index: 1033;">×</button>
+				<div class="row row-8">
+					<div class="col-auto pt-1"><i class="far fa-lightbulb text-white bg-warning fz-22 rounded-circle text-center" style="width: 35px; height: 35px; line-height: 35px;"></i></div>
+					<div class="col">
+						<div data-notify="message" class="text-muted">
+							<div>Kaizala mencatat 2 waktu presensi, yaitu <span class="fw-7">ResponseTime (UTC)</span> dan <span class="fw-7">Server Receipt Timestamp (UTC)</span>. ResponseTime mengacu pada waktu yang tertera pada <i>smartphone</i> masing-masing pengguna, sedangkan Server Receipt Timestamp mengacu pada waktu yang tercatat pada server.</div>
+							<div class="my-2">Pengguna dapat mengubah jam pada <i>smartphone</i>-nya untuk mendapatkan waktu presensi ResponseTime sesuai dengan yang diinginkannya.<div class="text-danger">Dengan demikian, kami hanya mengakomodir waktu presensi yang mengacu pada Server Receipt Timestamp untuk menghindari tindak kecurangan tersebut.</div></div>
+							<div>Apabila memang menginginkan rekap presensi yang mengacu pada ResponseTime, silakan edit file CSV yang akan diupload dengan menukar nama kolom "ResponseTime (UTC)" dan "Server Receipt Timestamp (UTC)"</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="card mx--a mx-sm-0">
