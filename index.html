@@ -5,10 +5,11 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="Muhammad Afifudin">
-	<meta name="description" content="WebApp Presensi Kaizala">
-	<meta name="keywords" content="Presensi, Kaizala, Konversi, Convert, Absensi, Kehadiran, Attendance Report, Attendance Request, WebApp, BPS, Badan Pusat Statistik">
+	<meta name="description" content="WebApp Presensi Kaizala merupakan aplikasi website yang dapat mengkonversi format waktu presensi UTC menjadi zona waktu Indonesia, serta dapat membuat rekap presensi untuk setiap pegawai.">
+	<meta name="keywords" content="Presensi, Kaizala, Konversi, Convert, Absensi, Kehadiran, Online, Attendance Report, Attendance Request, WebApp, BPS, Badan Pusat Statistik">
 	<meta name="theme-color" content="#1572e8">
 	<meta property="og:site_name" content="Presensi Kaizala">
+	<meta property="og:description" content="WebApp Presensi Kaizala merupakan aplikasi website yang dapat mengkonversi format waktu presensi UTC menjadi zona waktu Indonesia, serta dapat membuat rekap presensi untuk setiap pegawai.">
 	<meta property="og:image" content="https://afiiif.github.io/presensi-kaizala/assets/img/bps-presensi-kaizala-og-img.png">
 	<meta property="og:title" content="Presensi Kaizala · Konversi hasil ekspor attendance request">
 	<meta property="og:url" content="https://afiiif.github.io/presensi-kaizala/">
@@ -53,6 +54,17 @@
 
 	<main class="container-fluid px-lg-4 px-xl-5">
 		<section id="section-input">
+			<div class="alert alert-info pl-3 pr-5 mb-45 alert-dismissible fade show" role="alert">
+				<button type="button" aria-hidden="true" class="close z-3 pt-1 pb-45" data-notify="dismiss" data-dismiss="alert" aria-label="Tutup" style="position: absolute; right: 10px; top: 5px; z-index: 1033;">×</button>
+				<div class="row row-8">
+					<div class="col-auto pt-1"><i class="far fa-lightbulb text-white bg-info fz-22 rounded-circle text-center" style="width: 35px; height: 35px; line-height: 35px;"></i></div>
+					<div class="col">
+						<div data-notify="message" class="text-muted">
+							<div>Hasil ekspor dari <i>attendance report</i> aplikasi Kaizala memiliki format waktu UTC. Oleh karena itu, perlu dilakukan konversi terhadap data waktu tersebut agar sesuai dengan zona waktu di Indonesia. Situs ini hadir untuk memudahkan Anda melakukan konversi waktu, sekaligus memudahkan pembuatan laporan presensi <i>online</i> per pegawai.</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row row-8 align-items-center mb-35">
 				<div class="col-auto">Zona Waktu:</div>
 				<div class="col-auto" style="width: 90px;">
@@ -150,7 +162,7 @@
 				</div>
 			</div>
 			<div class="alert alert-warning pl-3 pr-5 mb-4 alert-dismissible fade show" role="alert">
-				<button type="button" aria-hidden="true" class="close" data-notify="dismiss" data-dismiss="alert" aria-label="Tutup" style="position: absolute; right: 10px; top: 5px; z-index: 1033;">×</button>
+				<button type="button" aria-hidden="true" class="close z-3 pt-1 pb-45" data-notify="dismiss" data-dismiss="alert" aria-label="Tutup" style="position: absolute; right: 10px; top: 5px; z-index: 1033;">×</button>
 				<div class="row row-8">
 					<div class="col-auto pt-1"><i class="far fa-lightbulb text-white bg-warning fz-22 rounded-circle text-center" style="width: 35px; height: 35px; line-height: 35px;"></i></div>
 					<div class="col">
