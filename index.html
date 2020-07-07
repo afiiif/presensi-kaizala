@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
-<?php include 'views/partials/meta.php'; ?>
-	<meta property="og:title" content="Presensi Kaizala · BPS Kabupaten Kayong Utara">
-	<meta property="og:url" content="<?=SITE.PATH?>">
-	<base href="<?=SITE?>/presensi-kaizala/">
-	<title>Presensi Kaizala · BPS Kabupaten Kayong Utara</title>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Muhammad Afifudin">
+	<meta name="description" content="WebApp Presensi Kaizala">
+	<meta name="keywords" content="Presensi, Kaizala, Konversi, Convert, Absensi, Kehadiran, Attendance Report, Attendance Request, WebApp, BPS, Badan Pusat Statistik">
+	<meta name="theme-color" content="#1572e8">
+	<meta property="og:site_name" content="Presensi Kaizala">
+	<meta property="og:image" content="https://afiiif.github.io/presensi-kaizala/assets/img/bps-presensi-kaizala-og-img.png">
+	<meta property="og:title" content="Presensi Kaizala · Konversi hasil ekspor attendance request">
+	<meta property="og:url" content="https://afiiif.github.io/presensi-kaizala/">
+	<title>Presensi Kaizala · Konversi hasil ekspor attendance request</title>
 
 	<link rel="shortcut icon" href="https://webapp.kaiza.la/web-app-images/favicon.ico?v=2" type="image/x-icon">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,14 +22,26 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=<?php include 'views/partials/_version.php'; ?>">
-	<link rel="stylesheet" href="assets/css/main.css?v=<?php include 'views/partials/_version.php'; ?>">
+	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=1.3.2">
+	<link rel="stylesheet" href="assets/css/main.css?v=1.3.2">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 </head>
 <body>
 
-<?php include 'views/partials/modal.php'; ?>
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+		<div class="modal-dialog" id="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-title"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Batal"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body" id="modal-body"></div>
+				<div class="border-top text-danger text-right" id="modal-error" style="display: none;"></div>
+				<div class="modal-footer" id="modal-footer"></div>
+			</div>
+		</div>
+	</div>
 
 	<header class="main-header">
 		<div class="logo-header p-0 w-100" data-background-color="blue">
@@ -87,7 +106,7 @@
 					<div class="custom-card-number">3</div>
 					<div class="card">
 						<div class="card-body">
-							<div>Atur zona waktu yang diinginkan.<br>Kemudian masukkan file-file CSV ke web app ini.</div>
+							<div>Atur zona waktu yang diinginkan, kemudian masukkan file-file CSV atau ZIP ke dalam aplikasi website ini.</div>
 							<a href="assets/img/presensi-kaizala.gif" data-toggle="lightbox" data-gallery="help" class="d-block bg-lightgray mt-3 mx--2 border">
 								<img src="assets/img/presensi-kaizala.gif" class="w-100">
 							</a>
@@ -173,9 +192,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/xlsx.full.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.3.0/jszip.min.js"></script>
-	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
-	<script src="assets/js/main.js?v=<?php include 'views/partials/_version.php'; ?>"></script>
-	<script>const DEV = <?=json_encode(SITE==='http://localhost')?>;</script>
+	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=1.3.2"></script>
+	<script src="assets/js/main.js?v=1.3.2"></script>
+	<script>const DEV = false;</script>
 
 </body>
 </html>
