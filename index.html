@@ -23,8 +23,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=1.3.2">
-	<link rel="stylesheet" href="assets/css/main.css?v=1.3.2">
+	<link rel="stylesheet" href="lib/atlantis-lite/mod/atlantis.mod.css?v=1.4.0">
+	<link rel="stylesheet" href="assets/css/main.css?v=1.4.0">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 </head>
@@ -45,8 +45,13 @@
 	</div>
 
 	<header class="main-header">
-		<div class="logo-header p-0 w-100" data-background-color="blue">
-			<div class="container-fluid px-lg-4 px-xl-5"><a href="" class="text-white text-decoration-none">Presensi Kaizala</a></div>
+		<div class="logo-header p-0 w-100 lh-100" data-background-color="blue">
+			<div class="container-fluid px-lg-4 px-xl-5">
+				<div class="d-flex align-items-center">
+					<a href="" class="text-white text-decoration-none d-block pr-35">Presensi Kaizala</a>
+					<div class="ml-auto"><a class="github-button" href="https://github.com/afiiif/presensi-kaizala" data-show-count="true" aria-label="Star afiiif/presensi-kaizala on GitHub">Star</a></div>
+				</div>
+			</div>
 		</div>
 	</header>
 
@@ -164,25 +169,41 @@
 			<div class="alert alert-warning pl-3 pr-5 mb-4 alert-dismissible fade show" role="alert">
 				<button type="button" aria-hidden="true" class="close z-3 pt-1 pb-45" data-notify="dismiss" data-dismiss="alert" aria-label="Tutup" style="position: absolute; right: 10px; top: 5px; z-index: 1033;">×</button>
 				<div class="row row-8">
-					<div class="col-auto pt-1"><i class="far fa-lightbulb text-white bg-warning fz-22 rounded-circle text-center" style="width: 35px; height: 35px; line-height: 35px;"></i></div>
+					<div class="col-auto pt-1"><i class="fas fa-info text-white bg-warning fz-22 rounded-circle text-center" style="width: 35px; height: 35px; line-height: 35px;"></i></div>
 					<div class="col">
 						<div data-notify="message" class="text-muted">
 							<div>Kaizala mencatat 2 waktu presensi, yaitu <span class="fw-7">ResponseTime (UTC)</span> dan <span class="fw-7">Server Receipt Timestamp (UTC)</span>. ResponseTime mengacu pada waktu yang tertera pada <i>smartphone</i> masing-masing pengguna, sedangkan Server Receipt Timestamp mengacu pada waktu yang tercatat pada server.</div>
-							<div class="my-2">Pengguna dapat mengubah jam pada <i>smartphone</i>-nya untuk mendapatkan waktu presensi ResponseTime sesuai dengan yang diinginkannya.<div class="text-danger">Dengan demikian, kami hanya mengakomodir waktu presensi yang mengacu pada Server Receipt Timestamp untuk menghindari tindak kecurangan tersebut.</div></div>
-							<div>Apabila memang menginginkan rekap presensi yang mengacu pada ResponseTime, silakan edit file CSV yang akan diupload dengan menukar nama kolom "ResponseTime (UTC)" dan "Server Receipt Timestamp (UTC)"</div>
+							<div class="mt-2">Pengguna dapat mengubah jam pada <i>smartphone</i>-nya untuk mendapatkan waktu presensi ResponseTime sesuai dengan yang diinginkannya. Dengan demikian, kami menyarankan untuk menggunakan waktu presensi yang mengacu pada Server Receipt Timestamp untuk menghindari tindak kecurangan tersebut.</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card mx--a mx-sm-0">
 				<div class="card-header">
-					<div class="custom-control custom-radio">
-						<input type="radio" id="display_setting1" name="display_setting" class="custom-control-input" value="0" checked>
-						<label class="custom-control-label cur-p" for="display_setting1">Gabungkan presensi pagi & sore</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="display_setting2" name="display_setting" class="custom-control-input" value="1">
-						<label class="custom-control-label cur-p" for="display_setting2">Pisahkan tiap presensi</label>
+					<div class="row">
+						<div class="col">
+							<div class="custom-control custom-radio">
+								<input type="radio" id="display_setting1" name="display_setting" class="custom-control-input" value="0" checked>
+								<label class="custom-control-label cur-p" for="display_setting1">Gabungkan presensi masuk & pulang</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="display_setting2" name="display_setting" class="custom-control-input" value="1">
+								<label class="custom-control-label cur-p" for="display_setting2">Pisahkan tiap presensi</label>
+							</div>
+						</div>
+						<div class="col-xl-auto ml-xl-auto">
+							<hr class="mx--35 d-xl-none">
+							<div>
+								<div class="custom-control custom-radio">
+									<input type="radio" id="time_setting1" name="time_setting" class="custom-control-input" value="Server Receipt Timestamp (UTC)" checked>
+									<label class="custom-control-label cur-p" for="time_setting1">Server Receipt Timestamp</label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" id="time_setting2" name="time_setting" class="custom-control-input" value="ResponseTime (UTC)">
+									<label class="custom-control-label cur-p" for="time_setting2">ResponseTime</label>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="card-body">
@@ -204,9 +225,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.1/xlsx.full.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.3.0/jszip.min.js"></script>
-	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=1.3.2"></script>
-	<script src="assets/js/main.js?v=1.3.2"></script>
+	<script src="lib/atlantis-lite/mod/atlantis.mod.js?v=1.4.0"></script>
+	<script src="assets/js/main.js?v=1.4.0"></script>
 	<script>const DEV = false;</script>
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
 
 </body>
 </html>
