@@ -8,9 +8,9 @@ const sourcemaps = require('gulp-sourcemaps');
 // Compile Sass
 function css_main() {
 	return gulp
-		.src('assets.src/scss/main.scss')
+		.src('src/scss/main.scss')
 		.pipe(sourcemaps.init())
-		.pipe(sass({ outputStyle: 'compressed', includePaths: ['./assets.src/scss'] }).on('error', sass.logError))
+		.pipe(sass({ outputStyle: 'compressed', includePaths: ['./src/scss'] }).on('error', sass.logError))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('assets/css'));
 }
@@ -18,7 +18,7 @@ function css_main() {
 // Concat & minify JS
 function js_main() {
 	return gulp
-		.src(['assets.src/js/utilities.js', 'assets.src/js/main/**/*.js'])
+		.src(['src/js/utilities.js', 'src/js/main/**/*.js'])
 		.pipe(sourcemaps.init())
 		.pipe(concat('main.js'))
 		.pipe(babel({ presets: ['@babel/env'] }).on('error', function (e) { console.log(e) }))
@@ -49,9 +49,9 @@ function atlantis_js() {
 
 // Watch files
 function watchFiles() {
-	gulp.watch('assets.src/scss/**/*.scss', gulp.series(css_main));
-	gulp.watch('assets.src/js/main/**/*.js', gulp.series(js_main));
-	gulp.watch('assets.src/js/utilities.js', gulp.series(js_main));
+	gulp.watch('src/scss/**/*.scss', gulp.series(css_main));
+	gulp.watch('src/js/main/**/*.js', gulp.series(js_main));
+	gulp.watch('src/js/utilities.js', gulp.series(js_main));
 }
 
 // Export
